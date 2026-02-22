@@ -1,0 +1,93 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Gallery from '../components/Gallery.astro';
+import Lightbox from '../components/Lightbox.astro';
+
+interface Props {
+  title: string;
+  heroSubtitle: string;
+  images: string[];
+}
+
+const { title, heroSubtitle, images } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <Hero title={title} subtitle={heroSubtitle} compact />
+
+  <section class="section">
+    <div class="container">
+      <div class="service-content">
+        <slot />
+      </div>
+
+      {images.length > 0 && (
+        <div class="service-gallery">
+          <h2 class="section__title">Zdjęcia z realizacji</h2>
+          <Gallery images={images} />
+        </div>
+      )}
+    </div>
+  </section>
+
+  <Lightbox />
+</BaseLayout>
+
+<style>
+  .service-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .service-content :global(h2) {
+    font-size: 1.8rem;
+    margin: 48px 0 20px;
+  }
+
+  .service-content :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .service-content :global(h3) {
+    font-family: var(--font-main);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 32px 0 12px;
+  }
+
+  .service-content :global(p) {
+    color: var(--color-text-light);
+    line-height: 1.8;
+    margin-bottom: 16px;
+    font-size: 1rem;
+  }
+
+  .service-content :global(ul) {
+    padding-left: 24px;
+    list-style: disc;
+    margin-bottom: 16px;
+  }
+
+  .service-content :global(li) {
+    color: var(--color-text-light);
+    margin-bottom: 8px;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .service-content :global(img) {
+    border-radius: 12px;
+    margin: 24px 0;
+  }
+
+  .service-gallery {
+    margin-top: 64px;
+  }
+
+  @media (max-width: 768px) {
+    .service-content :global(h2) {
+      font-size: 1.5rem;
+    }
+  }
+</style>

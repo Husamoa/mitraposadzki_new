@@ -1,0 +1,147 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__inner container">
+    <div class="footer__col">
+      <div class="footer__logo">
+        <span class="footer__logo-name">MITRA</span>
+        <span class="footer__logo-sub">posadzki</span>
+      </div>
+      <p class="footer__desc">
+        Profesjonalne posadzki dekoracyjne - mikrocement, żywica, beton architektoniczny.
+      </p>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__heading">Usługi</h4>
+      <ul class="footer__links">
+        <li><a href="/posadzka-anhydrytowa">Posadzka anhydrytowa</a></li>
+        <li><a href="/posadzka-przemyslowa">Posadzka przemysłowa</a></li>
+        <li><a href="/pianobeton">Pianobeton</a></li>
+        <li><a href="/masy-samopoziomujace">Masy samopoziomujące</a></li>
+        <li><a href="/zywica-epoksydowa">Żywica epoksydowa</a></li>
+        <li><a href="/realizacje">Realizacje</a></li>
+        <li><a href="/kontakt">Kontakt</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__heading">Kontakt</h4>
+      <ul class="footer__links">
+        <li>tel: <a href="tel:+48000000000">+48 000 000 000</a></li>
+        <li>email: <a href="mailto:kontakt@mitraposadzki.pl">kontakt@mitraposadzki.pl</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__heading">Social media</h4>
+      <div class="footer__social">
+        <a href="#" aria-label="Facebook" class="footer__social-link">Facebook</a>
+        <a href="#" aria-label="Instagram" class="footer__social-link">Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container">
+      <p>&copy; {year} MITRA Posadzki. Wszelkie prawa zastrzeżone.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-accent);
+    color: #ccc;
+    padding: 60px 0 0;
+  }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
+  }
+
+  .footer__logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .footer__logo-name {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 3px;
+  }
+
+  .footer__logo-sub {
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #999;
+  }
+
+  .footer__desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .footer__heading {
+    font-family: var(--font-main);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+
+  .footer__links li {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+
+  .footer__links a:hover {
+    color: #fff;
+  }
+
+  .footer__social {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer__social-link {
+    font-size: 0.9rem;
+  }
+
+  .footer__social-link:hover {
+    color: #fff;
+  }
+
+  .footer__bottom {
+    border-top: 1px solid #444;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 768px) {
+    .footer__inner {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

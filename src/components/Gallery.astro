@@ -1,0 +1,91 @@
+---
+interface Props {
+  images: string[];
+}
+
+const { images } = Astro.props;
+const galleryId = `gallery-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="gallery" data-gallery-id={galleryId}>
+  <div class="gallery__track">
+    {images.map((src, i) => (
+      <button class="gallery__thumb" data-index={i} data-images={JSON.stringify(images)}>
+        <img src={src} alt={`Zdjęcie ${i + 1}`} loading="lazy" />
+      </button>
+    ))}
+  </div>
+</div>
+
+<style>
+  .gallery {
+    margin-top: 32px;
+  }
+
+  .gallery__track {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .gallery__track::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .gallery__track::-webkit-scrollbar-track {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  .gallery__track::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 3px;
+  }
+
+  .gallery__thumb {
+    flex-shrink: 0;
+    width: 160px;
+    height: 120px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+    scroll-snap-align: start;
+    transition: border-color 0.3s ease, opacity 0.3s ease;
+  }
+
+  .gallery__thumb:hover {
+    border-color: var(--color-accent);
+    opacity: 0.85;
+  }
+
+  .gallery__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .gallery__thumb {
+      width: 130px;
+      height: 100px;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.gallery__thumb').forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      const images = JSON.parse(thumb.getAttribute('data-images') || '[]');
+      const index = parseInt(thumb.getAttribute('data-index') || '0');
+      if ((window as any).__openLightbox) {
+        (window as any).__openLightbox(images, index);
+      }
+    });
+  });
+</script>

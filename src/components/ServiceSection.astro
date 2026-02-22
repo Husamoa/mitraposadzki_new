@@ -1,0 +1,100 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image: string;
+  href: string;
+  reverse?: boolean;
+}
+
+const { title, description, image, href, reverse = false } = Astro.props;
+---
+
+<section class:list={['service-section', { 'service-section--reverse': reverse }]}>
+  <div class="service-section__inner container">
+    <div class="service-section__text">
+      <h2 class="service-section__title">{title}</h2>
+      <p class="service-section__desc">{description}</p>
+      <a href={href} class="btn btn--outline service-section__btn">Dowiedz się więcej</a>
+    </div>
+    <div class="service-section__image">
+      <img src={image} alt={title} loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .service-section {
+    padding: 80px 0;
+  }
+
+  .service-section:nth-child(even) {
+    background: var(--color-section-alt);
+  }
+
+  .service-section__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .service-section--reverse .service-section__inner {
+    direction: rtl;
+  }
+
+  .service-section--reverse .service-section__inner > * {
+    direction: ltr;
+  }
+
+  .service-section__title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .service-section__desc {
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    font-size: 1rem;
+  }
+
+  .service-section__btn {
+    padding: 12px 28px;
+    font-size: 0.9rem;
+  }
+
+  .service-section__image {
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .service-section__image img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .service-section__image:hover img {
+    transform: scale(1.03);
+  }
+
+  @media (max-width: 768px) {
+    .service-section {
+      padding: 48px 0;
+    }
+
+    .service-section__inner,
+    .service-section--reverse .service-section__inner {
+      grid-template-columns: 1fr;
+      direction: ltr;
+      gap: 32px;
+    }
+
+    .service-section__title {
+      font-size: 1.6rem;
+    }
+  }
+</style>

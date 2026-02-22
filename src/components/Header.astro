@@ -1,0 +1,273 @@
+---
+const navLinks = [
+  { href: '/', label: 'Strona główna' },
+  { href: '/oferta', label: 'Oferta' },
+  { href: '/realizacje', label: 'Realizacje' },
+  { href: '/kontakt', label: 'Kontakt' },
+];
+---
+
+<header class="header">
+  <div class="header__inner container">
+    <a href="/" class="header__logo">
+      <span class="header__logo-name">MITRA</span>
+      <span class="header__logo-sub">posadzki</span>
+    </a>
+
+    <div class="header__right">
+      <a href="/kontakt" class="btn header__cta">Skontaktuj się z nami</a>
+
+      <button class="header__hamburger" aria-label="Menu" aria-expanded="false">
+        <span class="header__hamburger-line"></span>
+        <span class="header__hamburger-line"></span>
+        <span class="header__hamburger-line"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Fullscreen overlay menu -->
+<div class="overlay-menu" aria-hidden="true">
+  <button class="overlay-menu__close" aria-label="Zamknij menu">
+    <span></span>
+    <span></span>
+  </button>
+  <nav class="overlay-menu__nav">
+    <ul class="overlay-menu__list">
+      {navLinks.map(link => (
+        <li>
+          <a href={link.href} class="overlay-menu__link">{link.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</div>
+
+<style>
+  .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: var(--header-height);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .header__logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    color: #fff;
+  }
+
+  .header__logo-name {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+  }
+
+  .header__logo-sub {
+    font-size: 0.75rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .header__right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .header__cta {
+    padding: 10px 24px;
+    font-size: 0.85rem;
+    background: transparent;
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .header__cta:hover {
+    background: #fff;
+    color: var(--color-accent);
+    border-color: #fff;
+  }
+
+  /* Hamburger */
+  .header__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    z-index: 1001;
+    position: relative;
+  }
+
+  .header__hamburger-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    transform-origin: center;
+  }
+
+  /* Hamburger → X animation */
+  .header__hamburger.active .header__hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .header__hamburger.active .header__hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .header__hamburger.active .header__hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* Fullscreen overlay menu */
+  .overlay-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(20, 20, 20, 0.97);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+
+  .overlay-menu.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .overlay-menu__list {
+    text-align: center;
+  }
+
+  .overlay-menu__list li {
+    overflow: hidden;
+  }
+
+  .overlay-menu__link {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 600;
+    color: #fff;
+    padding: 12px 0;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease, color 0.3s ease;
+  }
+
+  .overlay-menu.open .overlay-menu__link {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .overlay-menu.open li:nth-child(1) .overlay-menu__link { transition-delay: 0.1s; }
+  .overlay-menu.open li:nth-child(2) .overlay-menu__link { transition-delay: 0.2s; }
+  .overlay-menu.open li:nth-child(3) .overlay-menu__link { transition-delay: 0.25s; }
+  .overlay-menu.open li:nth-child(4) .overlay-menu__link { transition-delay: 0.3s; }
+
+  /* Close button (X) */
+  .overlay-menu__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .overlay-menu__close span {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 28px;
+    height: 2px;
+    background: #fff;
+    transition: opacity 0.3s ease;
+  }
+
+  .overlay-menu__close span:first-child {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .overlay-menu__close span:last-child {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .overlay-menu__close:hover span {
+    opacity: 0.5;
+  }
+
+  .overlay-menu__link:hover {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  @media (max-width: 600px) {
+    .header__cta {
+      display: none;
+    }
+
+    .overlay-menu__link {
+      font-size: 2rem;
+    }
+  }
+</style>
+
+<script>
+  const hamburger = document.querySelector('.header__hamburger');
+  const overlay = document.querySelector('.overlay-menu');
+  const closeBtn = document.querySelector('.overlay-menu__close');
+
+  function openMenu() {
+    hamburger?.classList.add('active');
+    overlay?.classList.add('open');
+    hamburger?.setAttribute('aria-expanded', 'true');
+    overlay?.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    hamburger?.classList.remove('active');
+    overlay?.classList.remove('open');
+    hamburger?.setAttribute('aria-expanded', 'false');
+    overlay?.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  hamburger?.addEventListener('click', () => {
+    overlay?.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  closeBtn?.addEventListener('click', closeMenu);
+
+  // Close menu on link click
+  overlay?.querySelectorAll('.overlay-menu__link').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>

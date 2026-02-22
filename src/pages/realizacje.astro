@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+
+// Placeholder gallery items - replace with actual images
+const galleryItems = [
+  { src: '', alt: 'Realizacja 1', category: 'mikrocement' },
+  { src: '', alt: 'Realizacja 2', category: 'mikrocement' },
+  { src: '', alt: 'Realizacja 3', category: 'żywica' },
+  { src: '', alt: 'Realizacja 4', category: 'beton' },
+  { src: '', alt: 'Realizacja 5', category: 'mikrocement' },
+  { src: '', alt: 'Realizacja 6', category: 'żywica' },
+];
+---
+
+<BaseLayout title="Realizacje">
+
+  <Hero
+    title="Realizacje"
+    subtitle="Zobacz nasze dotychczasowe projekty. Każda realizacja to indywidualne podejście i dbałość o szczegóły."
+    compact
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="gallery-filters">
+        <button class="gallery-filter active" data-filter="all">Wszystkie</button>
+        <button class="gallery-filter" data-filter="mikrocement">Mikrocement</button>
+        <button class="gallery-filter" data-filter="żywica">Żywica</button>
+        <button class="gallery-filter" data-filter="beton">Beton</button>
+      </div>
+
+      <div class="gallery-grid">
+        {galleryItems.map((item) => (
+          <div class="gallery-item" data-category={item.category}>
+            {item.src
+              ? <img src={item.src} alt={item.alt} loading="lazy" />
+              : <div class="gallery-item__placeholder">
+                  <span>{item.alt}</span>
+                </div>
+            }
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .gallery-filters {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .gallery-filter {
+    padding: 10px 24px;
+    background: transparent;
+    border: 2px solid var(--color-border);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-main);
+  }
+
+  .gallery-filter:hover,
+  .gallery-filter.active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .gallery-item {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .gallery-item.hidden {
+    display: none;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  }
+
+  .gallery-item__placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ccc, #ddd);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const filters = document.querySelectorAll('.gallery-filter');
+  const items = document.querySelectorAll('.gallery-item');
+
+  filters.forEach(filter => {
+    filter.addEventListener('click', () => {
+      filters.forEach(f => f.classList.remove('active'));
+      filter.classList.add('active');
+
+      const category = filter.getAttribute('data-filter');
+
+      items.forEach(item => {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>

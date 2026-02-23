@@ -36,6 +36,8 @@ const { title, heroSubtitle, images } = Astro.props;
   </section>
 
   <Lightbox />
+
+  <div class="gradient-to-dark"></div>
 </BaseLayout>
 
 <style>
@@ -109,6 +111,11 @@ const { title, heroSubtitle, images } = Astro.props;
     margin-top: 64px;
   }
 
+  .gradient-to-dark {
+    height: 200px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #BEBEBE 50%, #1a1a1a 100%);
+  }
+
   @media (max-width: 768px) {
     .page-hero {
       padding: 120px 0 48px;
@@ -120,6 +127,10 @@ const { title, heroSubtitle, images } = Astro.props;
 
     .service-content :global(h2) {
       font-size: 1.5rem;
+    }
+
+    .gradient-to-dark {
+      height: 120px;
     }
   }
 </style>

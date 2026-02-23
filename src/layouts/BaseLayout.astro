@@ -6,9 +6,58 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>;
 }
 
-const { title, description = 'MITRA Posadzki - profesjonalne posadzki anhydrytowe, przemysłowe, pianobeton, masy samopoziomujące, żywica.' } = Astro.props;
+const {
+  title,
+  description = 'MITRA Posadzki Poznań - posadzki anhydrytowe, przemysłowe, pianobeton, masy samopoziomujące, żywica epoksydowa. Bezpłatna wycena.',
+  image = '/images/attic_optimized.jpg',
+  type = 'website',
+  jsonLd,
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const ogImageUrl = new URL(image, Astro.site).href;
+const fullTitle = `${title} | MITRA Posadzki Poznań`;
+
+const localBusinessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "MITRA Posadzki",
+  "description": "Profesjonalne posadzki anhydrytowe, przemysłowe, pianobeton, masy samopoziomujące i żywica epoksydowa w Poznaniu i okolicach.",
+  "url": "https://mitraposadzki.pl",
+  "telephone": ["+48666610404", "+48504946580"],
+  "email": "biuro@mitraposadzki.pl",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Os. Bolesława Chrobrego",
+    "addressLocality": "Poznań",
+    "postalCode": "60-681",
+    "addressCountry": "PL"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 52.4064,
+    "longitude": 16.9252
+  },
+  "areaServed": {
+    "@type": "GeoCircle",
+    "geoMidpoint": {
+      "@type": "GeoCoordinates",
+      "latitude": 52.4064,
+      "longitude": 16.9252
+    },
+    "geoRadius": "100000"
+  },
+  "sameAs": [
+    "https://www.facebook.com/MITRA-Posadzki-anhydrytowe-2208914829364454/"
+  ],
+  "image": ogImageUrl,
+  "priceRange": "$$"
+};
 ---
 
 <!DOCTYPE html>
@@ -16,12 +65,61 @@ const { title, description = 'MITRA Posadzki - profesjonalne posadzki anhydrytow
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>{fullTitle}</title>
   <meta name="description" content={description} />
-  <title>{title} | MITRA Posadzki</title>
+  <link rel="canonical" href={canonicalUrl} />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content={type} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:image" content={ogImageUrl} />
+  <meta property="og:locale" content="pl_PL" />
+  <meta property="og:site_name" content="MITRA Posadzki" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageUrl} />
+
+  <!-- Fonts -->
+  <link
+    rel="preload"
+    href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+  </noscript>
+
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- JSON-LD: LocalBusiness -->
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessJsonLd)} />
+
+  <!-- JSON-LD: Page-specific -->
+  {jsonLd && (
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  )}
 </head>
 <body>
   <Header />
@@ -45,19 +143,25 @@ const { title, description = 'MITRA Posadzki - profesjonalne posadzki anhydrytow
 
   document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el));
 
-  import Lenis from 'lenis';
+  // Lenis: only on desktop, respecting reduced motion
+  const isDesktop = window.matchMedia('(min-width: 769px)').matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-  });
+  if (isDesktop && !prefersReducedMotion) {
+    import('lenis').then(({ default: Lenis }) => {
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
 
-  function raf(time: number) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    });
   }
-  requestAnimationFrame(raf);
 </script>
 </body>
 </html>

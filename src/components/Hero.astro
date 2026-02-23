@@ -6,16 +6,17 @@ interface Props {
   backgroundImage?: string;
   backgroundImageWebp?: string;
   compact?: boolean;
+  imageAlt?: string;
 }
 
-const { title, subtitle, cta, backgroundImage, backgroundImageWebp, compact = false } = Astro.props;
+const { title, subtitle, cta, backgroundImage, backgroundImageWebp, compact = false, imageAlt = 'MITRA Posadzki - profesjonalne posadzki w Poznaniu' } = Astro.props;
 ---
 
 <section class:list={['hero', { 'hero--compact': compact }]}>
   {backgroundImage && (
     <picture>
       {backgroundImageWebp && <source srcset={backgroundImageWebp} type="image/webp" />}
-      <img src={backgroundImage} alt="" class="hero__bg" loading="eager" />
+      <img src={backgroundImage} alt={imageAlt} class="hero__bg" loading="eager" fetchpriority="high" width="1920" height="1080" sizes="100vw" />
     </picture>
   )}
   <div class="hero__overlay"></div>

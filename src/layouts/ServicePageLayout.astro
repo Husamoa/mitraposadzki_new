@@ -7,12 +7,14 @@ interface Props {
   title: string;
   heroSubtitle: string;
   images: string[];
+  description?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
-const { title, heroSubtitle, images } = Astro.props;
+const { title, heroSubtitle, images, description, jsonLd } = Astro.props;
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <section class="page-hero">
     <div class="container">
       <h1 class="page-heading" data-animate="from-bottom">{title}</h1>

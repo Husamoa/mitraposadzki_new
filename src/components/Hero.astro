@@ -20,13 +20,13 @@ const { title, subtitle, cta, backgroundImage, backgroundImageWebp, compact = fa
   )}
   <div class="hero__overlay"></div>
   <div class="hero__content container">
-    <h1 class="hero__title">{title}</h1>
-    <div class="hero__divider"></div>
-    {subtitle && <p class="hero__subtitle">{subtitle}</p>}
-    {cta && <a href={cta.href} class="btn hero__cta">{cta.label}</a>}
+    <h1 class="hero__title hero__anim" style="--anim-delay: 0.2s">{title}</h1>
+    <div class="hero__divider hero__anim" style="--anim-delay: 0.4s"></div>
+    {subtitle && <p class="hero__subtitle hero__anim" style="--anim-delay: 0.6s">{subtitle}</p>}
+    {cta && <a href={cta.href} class="btn hero__cta hero__anim" style="--anim-delay: 0.8s">{cta.label}</a>}
   </div>
   {!compact && (
-    <button class="hero__scroll" aria-label="Przewiń niżej">
+    <button class="hero__scroll hero__anim" style="--anim-delay: 1s" aria-label="Przewiń niżej">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="6 9 12 15 18 9"></polyline>
       </svg>
@@ -87,7 +87,7 @@ const { title, subtitle, cta, backgroundImage, backgroundImageWebp, compact = fa
   }
 
   .hero__divider {
-    width: 480px;
+    width: 60%;
     height: 2px;
     background: rgba(255, 255, 255, 0.7);
     margin: 20px auto;
@@ -113,7 +113,7 @@ const { title, subtitle, cta, backgroundImage, backgroundImageWebp, compact = fa
 
   .hero__scroll {
     position: absolute;
-    bottom: 100px;
+    bottom: 150px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
@@ -136,9 +136,40 @@ const { title, subtitle, cta, backgroundImage, backgroundImageWebp, compact = fa
     background: rgba(255, 255, 255, 0.1);
   }
 
+  .hero__anim {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: hero-fade-in 0.8s ease forwards;
+    animation-delay: var(--anim-delay, 0s);
+  }
+
+  .hero__scroll.hero__anim {
+    transform: translateX(-50%) translateY(30px);
+    animation: hero-scroll-in 0.8s ease forwards;
+    animation-delay: var(--anim-delay, 0s);
+  }
+
+  @keyframes hero-fade-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes hero-scroll-in {
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
   @keyframes hero-bounce {
     0%, 100% { transform: translateX(-50%) translateY(0); }
     50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  .hero__scroll.hero__anim {
+    animation: hero-scroll-in 0.8s ease forwards, hero-bounce 2s ease 1.8s infinite;
   }
 
   @media (max-width: 768px) {

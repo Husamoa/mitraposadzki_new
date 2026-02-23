@@ -1,13 +1,13 @@
 ---
+const isHome = Astro.url.pathname === '/';
 const navLinks = [
   { href: '/', label: 'Strona główna' },
-  { href: '/oferta', label: 'Oferta' },
   { href: '/realizacje', label: 'Realizacje' },
   { href: '/kontakt', label: 'Kontakt' },
 ];
 ---
 
-<header class="header">
+<header class:list={['header', { 'header--bordered': !isHome }]}>
   <div class="header__inner container">
     <a href="/" class="header__logo">
       <span class="header__logo-name">MITRA</span>
@@ -51,6 +51,10 @@ const navLinks = [
     right: 0;
     z-index: 100;
     height: var(--header-height);
+  }
+
+  .header--bordered {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   .header__inner {

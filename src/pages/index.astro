@@ -58,23 +58,6 @@ import ServiceSection from '../components/ServiceSection.astro';
     href="/posadzka-anhydrytowa"
   />
 
-  <section class="video-section">
-    <div class="container">
-      <h2 class="video-section__title" data-animate="from-bottom">Film z realizacji</h2>
-      <p class="video-section__desc" data-animate="from-bottom" data-delay="1">Film przedstawiający proces powstawania posadzki anhydrytowej</p>
-      <div class="video-wrapper" data-animate="from-bottom" data-delay="2">
-        <iframe
-          src="https://www.youtube.com/embed/RAHR16J8Ljs"
-          title="Proces powstawania posadzki anhydrytowej"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          loading="lazy"
-        ></iframe>
-      </div>
-    </div>
-  </section>
-
   <ServiceSection
     title="Posadzka przemysłowa"
     description="Niezawodne rozwiązanie dla obiektów przemysłowych oraz garaży. Dzięki zatarciu betonu na gładko uzyskujemy estetyczną, bezpyłową powierzchnię odporną na ścieranie, której nie trzeba dodatkowo wykańczać okładzinami."
@@ -159,43 +142,6 @@ import ServiceSection from '../components/ServiceSection.astro';
   .gradient-from-dark {
     height: 200px;
     background: linear-gradient(180deg, #1a1a1a 0%, #BEBEBE 30%, #FFFFFF 100%);
-  }
-
-  .video-section {
-    padding: 60px 0 80px;
-  }
-
-  .video-section__title {
-    font-size: 2rem;
-    margin-bottom: 12px;
-    text-align: center;
-  }
-
-  .video-section__desc {
-    color: var(--color-text-light);
-    text-align: center;
-    margin-bottom: 32px;
-    font-size: 1rem;
-  }
-
-  .video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
-    border-radius: 16px;
-    max-width: 900px;
-    margin: 0 auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  }
-
-  .video-wrapper iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
   }
 
   .gradient-to-dark {

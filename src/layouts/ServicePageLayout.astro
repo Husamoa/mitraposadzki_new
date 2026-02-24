@@ -1,26 +1,37 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import Gallery from '../components/Gallery.astro';
 import Lightbox from '../components/Lightbox.astro';
 
 interface Props {
   title: string;
   heroSubtitle: string;
+  heroImage?: string;
   images: string[];
   description?: string;
   jsonLd?: Record<string, unknown>;
 }
 
-const { title, heroSubtitle, images, description, jsonLd } = Astro.props;
+const { title, heroSubtitle, heroImage, images, description, jsonLd } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} jsonLd={jsonLd}>
-  <section class="page-hero">
-    <div class="container">
-      <h1 class="page-heading" data-animate="from-bottom">{title}</h1>
-      <p class="page-desc" data-animate="from-bottom" data-delay="1">{heroSubtitle}</p>
-    </div>
-  </section>
+  {heroImage ? (
+    <section class="page-hero page-hero--image">
+      <img src={heroImage} alt={title} class="page-hero__bg" loading="eager" />
+      <div class="page-hero__overlay"></div>
+      <div class="page-hero__content container">
+        <h1 class="page-heading page-heading--light" data-animate="from-bottom">{title}</h1>
+        <p class="page-desc page-desc--light" data-animate="from-bottom" data-delay="1">{heroSubtitle}</p>
+      </div>
+    </section>
+  ) : (
+    <section class="page-hero">
+      <div class="container">
+        <h1 class="page-heading" data-animate="from-bottom">{title}</h1>
+        <p class="page-desc" data-animate="from-bottom" data-delay="1">{heroSubtitle}</p>
+      </div>
+    </section>
+  )}
 
   <section class="section">
     <div class="container">
@@ -30,8 +41,28 @@ const { title, heroSubtitle, images, description, jsonLd } = Astro.props;
 
       {images.length > 0 && (
         <div class="service-gallery">
-          <h2 class="section__title">Zdjęcia z realizacji</h2>
-          <Gallery images={images} />
+          <h2 class="section__title">Realizacje</h2>
+          <div class="realizations-slider" data-r-slider>
+            <div class="realizations-slider__track" data-r-track>
+              {images.map((src, i) => (
+                <img
+                  src={src}
+                  alt={`${title} - realizacja ${i + 1}`}
+                  class="realizations-slider__slide"
+                  loading="lazy"
+                  data-r-index={i}
+                />
+              ))}
+            </div>
+            <button class="realizations-slider__arrow realizations-slider__arrow--prev" data-r-prev aria-label="Poprzednie">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="realizations-slider__arrow realizations-slider__arrow--next" data-r-next aria-label="Następne">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <span class="realizations-slider__counter" data-r-counter>1 / {images.length}</span>
+            <div style="display:none" data-r-images>{JSON.stringify(images)}</div>
+          </div>
         </div>
       )}
     </div>
@@ -48,6 +79,40 @@ const { title, heroSubtitle, images, description, jsonLd } = Astro.props;
     background: linear-gradient(180deg, #1a1a1a 0%, #BEBEBE 30%, #FFFFFF 100%);
   }
 
+  .page-hero--image {
+    position: relative;
+    height: 36vh;
+    min-height: 280px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #2a2a2a;
+    text-align: center;
+  }
+
+  .page-hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .page-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .page-hero__content {
+    position: relative;
+    z-index: 1;
+    padding-top: 60px;
+  }
+
   .page-heading {
     font-size: 3.2rem;
     font-weight: 700;
@@ -56,11 +121,23 @@ const { title, heroSubtitle, images, description, jsonLd } = Astro.props;
     line-height: 1.1;
   }
 
+  .page-heading--light {
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+  }
+
   .page-desc {
     font-size: 1.05rem;
     color: #3B3737;
     line-height: 1.7;
     max-width: 560px;
+  }
+
+  .page-desc--light {
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 600px;
+    margin: 0 auto;
   }
 
   .service-content {
@@ -107,6 +184,72 @@ const { title, heroSubtitle, images, description, jsonLd } = Astro.props;
   .service-content :global(img) {
     border-radius: 12px;
     margin: 24px 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .service-content :global(.img-row) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .service-content :global(.img-row img) {
+    margin: 0;
+    aspect-ratio: 4/3;
+  }
+
+  .service-content :global(.img-caption) {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    text-align: center;
+    margin-top: -16px;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  .service-content :global(.table-wrapper) {
+    margin: 24px 0;
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(127, 127, 127, 0.17);
+  }
+
+  .service-content :global(.compare-table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .service-content :global(.compare-table thead) {
+    background: #1a1a1a;
+    color: #fff;
+  }
+
+  .service-content :global(.compare-table th) {
+    padding: 14px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .service-content :global(.compare-table td) {
+    padding: 12px 16px;
+    border-top: 1px solid rgba(127, 127, 127, 0.12);
+    color: var(--color-text-light);
+  }
+
+  .service-content :global(.compare-table td:first-child) {
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .service-content :global(.compare-table tbody tr:hover) {
+    background: rgba(0, 0, 0, 0.02);
   }
 
   .service-content :global(.video-wrapper) {
@@ -130,6 +273,91 @@ const { title, heroSubtitle, images, description, jsonLd } = Astro.props;
 
   .service-gallery {
     margin-top: 64px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .realizations-slider {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    aspect-ratio: 4/3;
+    background: #eee;
+    user-select: none;
+    touch-action: pan-y;
+    margin-top: 24px;
+  }
+
+  .realizations-slider__track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.4s ease;
+    will-change: transform;
+  }
+
+  .realizations-slider__track.dragging {
+    transition: none;
+  }
+
+  .realizations-slider__slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .realizations-slider__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    border-radius: 50%;
+    color: #1a1a1a;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+  }
+
+  .realizations-slider:hover .realizations-slider__arrow {
+    opacity: 1;
+  }
+
+  .realizations-slider__arrow:hover {
+    background: #fff;
+  }
+
+  .realizations-slider__arrow--prev { left: 12px; }
+  .realizations-slider__arrow--next { right: 12px; }
+
+  .realizations-slider__counter {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 0.8rem;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-family: var(--font-main);
+    z-index: 2;
+  }
+
+  @media (max-width: 768px) {
+    .realizations-slider__arrow {
+      opacity: 0.8;
+      width: 38px;
+      height: 38px;
+    }
   }
 
   .gradient-to-dark {
@@ -142,8 +370,23 @@ const { title, heroSubtitle, images, description, jsonLd } = Astro.props;
       padding: 120px 0 48px;
     }
 
+    .page-hero--image {
+      height: 30vh;
+      min-height: 220px;
+      padding: 0;
+    }
+
     .page-heading {
       font-size: 2.2rem;
+    }
+
+    .page-heading--light {
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+    }
+
+    .page-desc--light {
+      font-size: 0.95rem;
     }
 
     .service-content :global(h2) {
@@ -155,3 +398,90 @@ const { title, heroSubtitle, images, description, jsonLd } = Astro.props;
     }
   }
 </style>
+
+<script>
+  document.querySelectorAll('[data-r-slider]').forEach(slider => {
+    const el = slider as HTMLElement;
+    const track = slider.querySelector('[data-r-track]') as HTMLElement;
+    const prevBtn = slider.querySelector('[data-r-prev]') as HTMLElement;
+    const nextBtn = slider.querySelector('[data-r-next]') as HTMLElement;
+    const counter = slider.querySelector('[data-r-counter]') as HTMLElement;
+    const imagesData: string[] = JSON.parse(slider.querySelector('[data-r-images]')!.textContent!);
+    const total = imagesData.length;
+
+    let current = 0;
+    let startX = 0;
+    let moveX = 0;
+    let dragging = false;
+
+    function goTo(index: number) {
+      current = (index + total) % total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      counter.textContent = `${current + 1} / ${total}`;
+    }
+
+    prevBtn.addEventListener('click', (e) => { e.stopPropagation(); goTo(current - 1); });
+    nextBtn.addEventListener('click', (e) => { e.stopPropagation(); goTo(current + 1); });
+
+    track.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      dragging = true;
+      startX = e.clientX;
+      moveX = 0;
+      track.classList.add('dragging');
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      moveX = e.clientX - startX;
+      const offset = -current * 100;
+      const percent = (moveX / el.offsetWidth) * 100;
+      track.style.transform = `translateX(${offset + percent}%)`;
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (!dragging) return;
+      dragging = false;
+      track.classList.remove('dragging');
+      const threshold = el.offsetWidth * 0.15;
+      if (moveX < -threshold) goTo(current + 1);
+      else if (moveX > threshold) goTo(current - 1);
+      else goTo(current);
+    });
+
+    track.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      moveX = 0;
+      dragging = true;
+      track.classList.add('dragging');
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e) => {
+      if (!dragging) return;
+      moveX = e.touches[0].clientX - startX;
+      const offset = -current * 100;
+      const percent = (moveX / el.offsetWidth) * 100;
+      track.style.transform = `translateX(${offset + percent}%)`;
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+      if (!dragging) return;
+      dragging = false;
+      track.classList.remove('dragging');
+      const threshold = el.offsetWidth * 0.15;
+      if (moveX < -threshold) goTo(current + 1);
+      else if (moveX > threshold) goTo(current - 1);
+      else goTo(current);
+    });
+
+    track.addEventListener('dragstart', (e) => e.preventDefault());
+
+    // Click to open lightbox
+    track.addEventListener('click', () => {
+      if (Math.abs(moveX) > 5) return;
+      if ((window as any).__openLightbox) {
+        (window as any).__openLightbox(imagesData, current);
+      }
+    });
+  });
+</script>

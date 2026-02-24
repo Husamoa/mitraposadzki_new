@@ -3,7 +3,6 @@ import ServicePageLayout from '../layouts/ServicePageLayout.astro';
 
 const images = [
   '/images/przemyslowa/1.jpg',
-  '/images/przemyslowa/2.jpg',
   '/images/przemyslowka/1.jpg',
   '/images/przemyslowka/2.jpg',
   '/images/przemyslowka/3.jpg',
@@ -15,6 +14,7 @@ const images = [
 <ServicePageLayout
   title="Posadzka przemysłowa"
   heroSubtitle="Niezawodne rozwiązanie dla obiektów przemysłowych i garaży"
+  heroImage="/images/przemyslowa/1.jpg"
   images={images}
   description="Posadzka przemysłowa Poznań - beton zacierany na gładko do garaży i hal. Bezpyłowa, odporna na ścieranie powierzchnia. Wycena: 666-610-404."
   jsonLd={{
@@ -31,6 +31,9 @@ const images = [
   <p>
     Posadzka przemysłowa to niezawodne rozwiązanie które z powodzeniem stosuje się w obiektach przemysłowych oraz garażach. Dzięki zatarciu betonu na gładko uzyskujemy estetycznie wykonaną powierzchnię której nie trzeba dodatkowo wykańczać okładzinami.
   </p>
+
+  <img src="/images/przemyslowa/1.jpg" alt="Posadzka przemysłowa - realizacja MITRA Posadzki" loading="lazy" />
+
   <p>
     Posadzki z betonu zacieranego na gładko są idealnym rozwiązaniem jeśli chodzi o obiekty industrialne oraz garaże, a także wszystkie powierzchnie gdzie występują duże obciążenia a posadzki są intensywnie użytkowane. Dzięki zastosowaniu odpowiedniej klasy betonu oraz specjalnej mineralnej posypki utwardzającej, otrzymujemy wytrzymałą bezpyłową powierzchnię odporną na ścieranie i łatwą w utrzymaniu czystości.
   </p>
@@ -47,4 +50,8 @@ const images = [
     <li>Minimalny spadek na betonie zacieranym to ok. 0,7cm/m</li>
     <li>Zalecane są odpływy liniowe ze sztywnego materiału (np. betonowe) z kratką wpuszczaną w korytko. Odpływy punktowe okrągłe zmniejszają ryzyko zarysowania posadzki</li>
   </ul>
+
+  <img src="/images/przemyslowka/odplywy-wytyczne%20przygotowania.jpg" alt="Rodzaje odpływów do posadzki przemysłowej" loading="lazy" />
+  <p class="img-caption">Zalecane rodzaje odpływów do posadzki przemysłowej w garażu</p>
+
 </ServicePageLayout>

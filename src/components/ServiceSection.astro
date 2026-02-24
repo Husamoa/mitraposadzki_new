@@ -1,7 +1,7 @@
 ---
 interface Props {
   title: string;
-  description: string;
+  description?: string;
   image?: string;
   images?: string[];
   href: string;
@@ -17,7 +17,7 @@ const hasGallery = galleryImages.length > 1;
   <div class="service-section__inner container">
     <div class="service-section__text" data-animate={reverse ? "from-right" : "from-left"}>
       <h2 class="service-section__title">{title}</h2>
-      <p class="service-section__desc">{description}</p>
+      {description && <p class="service-section__desc">{description}</p>}
       <a href={href} class="btn btn--outline service-section__btn">Dowiedz się więcej</a>
     </div>
     <div class="service-section__media" data-animate={reverse ? "from-left" : "from-right"}>

@@ -190,6 +190,23 @@ const { title, heroSubtitle, heroImage, images, description, jsonLd } = Astro.pr
     object-fit: cover;
   }
 
+  .service-content :global(.list-with-images) {
+    list-style: none;
+  }
+
+  .service-content :global(.list-with-images li) {
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+
+  .service-content :global(.list-with-images img) {
+    max-width: 400px;
+    width: 100%;
+    margin: 10px 0 0;
+    border-radius: 10px;
+    aspect-ratio: 4/3;
+  }
+
   .service-content :global(.img-row) {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="Kontakt"
-  description="Skontaktuj się z MITRA Posadzki Poznań. Tel: 666-610-404, 504-946-580. Email: biuro@mitraposadzki.pl. Bezpłatna wycena posadzek. Os. Chrobrego, Poznań."
+  description="Skontaktuj się z MITRA Posadzki Poznań. Tel: 666-610-404, 504-946-580. Email: mitra.posadzki@gmail.com. Bezpłatna wycena posadzek. Os. Chrobrego, Poznań."
 >
 
   <section class="contact-hero">
@@ -31,7 +31,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                 <polyline points="22,6 12,13 2,6"/>
               </svg>
-              <a href="mailto:biuro@mitraposadzki.pl">biuro@mitraposadzki.pl</a>
+              <a href="mailto:mitra.posadzki@gmail.com">mitra.posadzki@gmail.com</a>
             </li>
             <li class="contact-list__item">
               <svg class="contact-list__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -113,11 +113,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         formStatus.classList.add('form-status--success');
         form.reset();
       } else {
-        formStatus.textContent = 'Wystąpił błąd. Spróbuj ponownie lub napisz na biuro@mitraposadzki.pl';
+        formStatus.textContent = 'Wystąpił błąd. Spróbuj ponownie lub napisz na mitra.posadzki@gmail.com';
         formStatus.classList.add('form-status--error');
       }
     } catch {
-      formStatus.textContent = 'Wystąpił błąd. Spróbuj ponownie lub napisz na biuro@mitraposadzki.pl';
+      formStatus.textContent = 'Wystąpił błąd. Spróbuj ponownie lub napisz na mitra.posadzki@gmail.com';
       formStatus.classList.add('form-status--error');
     } finally {
       submitBtn.disabled = false;

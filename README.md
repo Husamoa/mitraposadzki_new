@@ -57,5 +57,5 @@ public/
 ## Kontakt
 
 - **Telefon:** 666-610-404 / 504-946-580
-- **Email:** biuro@mitraposadzki.pl
+- **Email:** mitra.posadzki@gmail.com
 - **Adres:** Os. Bolesława Chrobrego, 60-681 Poznań

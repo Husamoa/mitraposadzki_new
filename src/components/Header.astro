@@ -3,6 +3,12 @@ const isHome = Astro.url.pathname === '/';
 const navLinks = [
   { href: '/', label: 'Strona główna' },
   { href: '/realizacje', label: 'Realizacje' },
+  { href: '/posadzka-anhydrytowa', label: 'Posadzka anhydrytowa' },
+  { href: '/posadzka-przemyslowa', label: 'Posadzka przemysłowa' },
+  { href: '/pianobeton', label: 'Pianobeton' },
+  { href: '/masy-samopoziomujace', label: 'Masy samopoziomujące' },
+  { href: '/zywica-epoksydowa', label: 'Żywica epoksydowa' },
+
   { href: '/kontakt', label: 'Kontakt' },
 ];
 ---
@@ -173,7 +179,7 @@ const navLinks = [
   .overlay-menu__link {
     display: inline-block;
     font-family: var(--font-heading);
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 600;
     color: #fff;
     padding: 12px 0;
@@ -188,9 +194,13 @@ const navLinks = [
   }
 
   .overlay-menu.open li:nth-child(1) .overlay-menu__link { transition-delay: 0.1s; }
-  .overlay-menu.open li:nth-child(2) .overlay-menu__link { transition-delay: 0.2s; }
-  .overlay-menu.open li:nth-child(3) .overlay-menu__link { transition-delay: 0.25s; }
-  .overlay-menu.open li:nth-child(4) .overlay-menu__link { transition-delay: 0.3s; }
+  .overlay-menu.open li:nth-child(2) .overlay-menu__link { transition-delay: 0.15s; }
+  .overlay-menu.open li:nth-child(3) .overlay-menu__link { transition-delay: 0.2s; }
+  .overlay-menu.open li:nth-child(4) .overlay-menu__link { transition-delay: 0.25s; }
+  .overlay-menu.open li:nth-child(5) .overlay-menu__link { transition-delay: 0.3s; }
+  .overlay-menu.open li:nth-child(6) .overlay-menu__link { transition-delay: 0.35s; }
+  .overlay-menu.open li:nth-child(7) .overlay-menu__link { transition-delay: 0.4s; }
+  .overlay-menu.open li:nth-child(8) .overlay-menu__link { transition-delay: 0.45s; }
 
   /* Close button (X) */
   .overlay-menu__close {
